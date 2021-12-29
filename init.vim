@@ -4,6 +4,57 @@ syntax enable
 set mouse=a
 set tabstop=2
 set shiftwidth=2
+set fileformat=unix
+set nobackup
+set nowritebackup
+set noswapfile
+set history=100
+set noruler
+set hlsearch
+set incsearch
+set ignorecase smartcase
+set hidden
+set nowrap
+set backspace=indent,eol,start
+set fillchars=stl:-     " fill active window's statusline with -
+set fillchars+=stlnc:-  " also fill inactive windows
+set fillchars+=vert:• " add a bar for vertical splits
+set fillchars+=fold:-
+set listchars=tab:▹\ ,trail:•,nbsp:⚋,extends:»,precedes:«
+set list
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set encoding=utf-8 nobomb
+set autoread
+set clipboard=unnamed
+set splitbelow
+set splitright
+set wildmenu
+set signcolumn=yes
+set scrolloff=5
+set sidescrolloff=7
+set sidescroll=1
+set showmatch
+set showmode
+set laststatus=2
+set wildchar=<TAB>
+set wildmode=list:longest
+set wildignore+=*.DS_STORE,*.db
+set diffopt=filler
+set diffopt+=iwhite
+set noerrorbells
+set novisualbell
+set nostartofline
+set autoindent smartindent
+set copyindent
+set smarttab
+set textwidth=120
+set pastetoggle=<leader>p
+set relativenumber
+set numberwidth=5
+set shortmess+=c
+set cmdheight=2
 
 let mapleader=','
 nmap <leader>z :u<CR>
@@ -20,6 +71,40 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'thoughtbot/vim-rspec'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-endwise'
+Plug 'sk1418/QFGrep'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-dispatch'
+Plug 'janko-m/vim-test'
+Plug 'janko/vim-test'
+Plug 'mhinz/vim-grepper'
+Plug 'ericpruitt/tmux.vim'
+Plug 'tpope/vim-commentary'
+Plug 'ryanoasis/vim-devicons'
+Plug 'dense-analysis/ale'
+Plug 'honza/vim-snippets'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-rails'
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-bundler'
+Plug 'tpope/vim-cucumber'
+Plug 'majutsushi/tagbar'
+Plug 'pangloss/vim-javascript'
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'ap/vim-css-color'
+Plug 'kchmck/vim-coffee-script'
+Plug 'tbastos/vim-lua'
+Plug 'mattn/emmet-vim'
+Plug 'slim-template/vim-slim'
+Plug 'elixir-editors/vim-elixir'
+Plug 'slashmili/alchemist.vim'
 call plug#end()
 
 nnoremap <leader>/ :NERDTreeToggle<CR>
@@ -179,3 +264,79 @@ endif
 map <F7> <Esc>mzgg=G`z
 nnoremap ,, <ESC>:noh<CR>
 " }}}
+
+" ALE {{{
+let g:ale_linters_ignore = {
+\ 'ruby': ['brakeman', 'cspell', 'debride', 'rails_best_practices', 'reek', 'rubocop', 'ruby', 'solargraph', 'sorbet', 'standardrb'],
+\ }
+
+let g:ale_fixers = {
+\ '*': ['remove_trailing_lines', 'trim_whitespace'],
+\ 'javascript': ['eslint'],
+\ 'javascriptreact': ['eslint'],
+\ 'ruby': ['rubocop'],
+\ 'css': ['prettier'],
+\ 'scss': ['prettier'],
+\}
+let g:ale_sign_error = '❌'
+let g:ale_sign_warning = '⭕'
+let g:ale_fix_on_save = 1
+hi ALEWarningSign ctermfg=blue
+hi ALEErrorSign ctermfg=red
+nmap <silent> [W <Plug>(ale_first)
+nmap <silent> [w <Plug>(ale_previous)
+nmap <silent> ]w <Plug>(ale_next)
+
+" FZF {{{
+  nnoremap <C-p> :<C-u>Files<CR>
+  nnoremap <C-f> :<C-u>Rg<CR>
+  nnoremap ,e :<C-u>RG<CR>
+  nnoremap ,a :<C-u>:Buffers<CR>
+" }}}
+nmap <silent> ]W <Plug>(ale_last)
+
+" MAPPING {{{
+map <Leader>o <C-w>s
+map <Leader>e <C-w>v
+cmap w!! %!sudo tee > /dev/null %
+nnoremap ,q :bdelete<CR>
+nnoremap ,w :update<CR>
+nnoremap ,l :g/describe\\|scenario\\|context\\|it\ \"/#<CR>
+nnoremap <F12> :TagbarToggle<CR>
+" }}}
+
+" GIT {{{
+map <F9> <Esc>:Gblame<CR>
+" }}}
+
+" VIM-TEST {{{
+let test#strategy = "dispatch"
+let test#ruby#use_spring_binstub=1
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+"}}}
+
+" NERDTREE {{{
+let NERDRemoveExtraSpace=1
+let NERDSpaceDelims=1
+let NERDTreeShowHidden=1
+let NERDTreeAutoDeleteBuffer=1
+let g:NERDTreeNodeDelimiter = "\u00a0"
+let NERDTreeIgnore = ['\~$', 'tmp[[dir]]', 'node_modules[[dir]]', 'tags[[file]]', '.DS_STORE[[dir]]', 'BGAppTest[[dir]]', 'codesign[[dir]]', 'jenkins-build[[dir]]', 'nexus-links[[dir]]', 'tools[[dir]]', '.git[[dir]]']
+nnoremap ,m :NERDTreeFind<CR>
+nnoremap ,n :NERDTreeToggle<CR>
+
+augroup nerdtreedisablecursorline
+  autocmd!
+  autocmd FileType nerdtree setlocal nocursorline
+augroup end
+"}}}
+
+" VIM-GREPPER {{{
+let g:grepper = {}
+let g:grepper.tools = ['rg']
+let g:grepper.stop = 20000
+
+nnoremap <C-g> :Grepper -cword -noprompt<CR>
+nnoremap ,f :Grepper -tool rg -grepprg rg --column --line-number -H --vimgrep<CR>
