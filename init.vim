@@ -153,3 +153,29 @@ EOF
 set termguicolors
 set background=dark
 colorscheme gruvbox
+
+" WINDOWS NAVIGATION {{{
+nnoremap <silent> <C-l> <C-w>l
+nnoremap <silent> <C-h> <C-w>h
+nnoremap <silent> <C-k> <C-w>k
+nnoremap <silent> <C-j> <C-w>j
+" }}}
+
+" ELITE MODE {{{
+let g:elite_mode = 1
+function! EliteKey()
+  nnoremap <Up> :resize -2<CR>
+  nnoremap <Down> :resize +2<CR>
+  nnoremap <Left> :vertical resize +3<CR>
+  nnoremap <Right> :vertical resize -3<CR>
+endfunction
+
+if get(g:, 'elite_mode')
+  :call EliteKey()
+endif
+" }}}
+
+" FORMATING {{{
+map <F7> <Esc>mzgg=G`z
+nnoremap ,, <ESC>:noh<CR>
+" }}}
